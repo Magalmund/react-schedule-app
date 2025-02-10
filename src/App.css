@@ -1,5 +1,15 @@
 /*@import "tailwindcss";*/
 
+/*:root {*/
+/*  --color-blue-200: #bfdbfe;*/
+/*  --color-red-200: #fecaca;*/
+/*  --color-green-200: #bbf7d0;*/
+/*  --color-yellow-200: #fef08a;*/
+/*  --color-indigo-200: #c7d2fe;*/
+/*  --color-purple-200: #ddd6fe;*/
+/*  --color-pink-200: #fbcfe8;*/
+/*}*/
+
 #root {
   max-width: 100%;
   margin: 0 auto;

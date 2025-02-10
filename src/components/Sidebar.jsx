@@ -3,6 +3,7 @@ import CreateEventButton from './CreateEventButton';
 import SmallCalendar from "./SmallCalendar.jsx";
 import Labels from "./Labels.jsx";
 import AddEmployee from "./AddEmployee.jsx";
+import EmployeeList from "./EmployeeList.jsx";
 
 const Sidebar = () => {
     return (
@@ -11,6 +12,7 @@ const Sidebar = () => {
             <SmallCalendar/>
             <Labels/>
             <AddEmployee/>
+            <EmployeeList/>
         </aside>
     );
 };

@@ -29,6 +29,8 @@ const ContextWrapper = ({children}) => {
     const [savedEvents, dispatchCalEvent] = useReducer(savedEventsReducer, [], initEvents);
     const [labels, setLabels] = useState([]);
 
+    // console.log(savedEvents);
+
     const filteredEvents = useMemo(() => {
         return savedEvents.filter((event) =>
             labels.filter((label) => label.checked)
@@ -51,7 +53,18 @@ const ContextWrapper = ({children}) => {
         setLabels((prevLabels) => {
             return [...new Set(savedEvents.map((event) => event.label))].map((label) => {
                 const currentLabel = prevLabels.find((label) => label.label === label);
-                return {
+                const shifts = {
+                    green: "day",
+                    orange: "evening",
+                    blue: "night"
+                }
+
+                return shifts[label] ? {
+                    shift: shifts[label],
+                    label,
+                    checked: currentLabel ? currentLabel.checked : true,
+                } : {
+                    shift: `Unknown, color is ${label}`,
                     label,
                     checked: currentLabel ? currentLabel.checked : true,
                 }

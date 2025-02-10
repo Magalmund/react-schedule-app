@@ -11,7 +11,6 @@ const Day = ({day, rowIdx}) => {
         setDayEvents(events)
     }, [filteredEvents])
 
-
     const getCurrentDayClass = () => {
         return day.format('DD-MM-YY') === dayjs().format('DD-MM-YY') ? 'bg-blue-600 text-white rounded-full w-7' : ''
     }
@@ -36,9 +35,10 @@ const Day = ({day, rowIdx}) => {
                 {dayEvents.map((event, idx) => (
                     <div key={idx}
                          onClick={() => setSelectedEvent(event)}
-                         className={`bg-${event.label}-200 p-1 mr-3 text-${event.label}-600 text-sm text-center rounded mb-1 truncate`}
+                         style={{ backgroundColor: `var(--color-${event.label}-200)` }}
+                         className={`p-1 text-gray-600 text-sm text-center rounded mb-1 truncate`}
                     >
-                        {event.title}
+                        {event.employee}
                     </div>
                 ))}
             </div>
