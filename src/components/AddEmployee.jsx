@@ -21,8 +21,6 @@ const AddEmployee = () => {
         }
     }
     return (
-        // <div className="flex justify-center items-center h-screen bg-gray-100">
-        // w-80 p-6
         <div>
             <h2 className="text-2xl font-semibold text-gray-800 mt-9">Add employee:</h2>
             <form onSubmit={handleSubmit} className="mt-4">

@@ -29,7 +29,7 @@ const ContextWrapper = ({children}) => {
     const [savedEvents, dispatchCalEvent] = useReducer(savedEventsReducer, [], initEvents);
     const [labels, setLabels] = useState([]);
 
-    // console.log(savedEvents);
+    console.log(savedEvents);
 
     const filteredEvents = useMemo(() => {
         return savedEvents.filter((event) =>
@@ -38,6 +38,7 @@ const ContextWrapper = ({children}) => {
                 .includes(event.label)
         );
     }, [savedEvents, labels])
+
 
     useEffect(() => {
         localStorage.setItem('savedEvents', JSON.stringify(savedEvents));

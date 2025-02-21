@@ -4,7 +4,7 @@ import GlobalContext from "../context/GlobalContext.jsx";
 const Labels = () => {
     const {labels, updateLabel} = useContext(GlobalContext);
 
-    console.log(labels);
+    // console.log(labels);
 
     return (
         <div>

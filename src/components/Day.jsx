@@ -9,7 +9,9 @@ const Day = ({day, rowIdx}) => {
     useEffect(() => {
         const events = filteredEvents.filter(event => dayjs(event.day).format("DD-MM-YY") === day.format("DD-MM-YY"));
         setDayEvents(events)
-    }, [filteredEvents])
+    }, [filteredEvents, day])
+
+    console.log(dayEvents);
 
     const getCurrentDayClass = () => {
         return day.format('DD-MM-YY') === dayjs().format('DD-MM-YY') ? 'bg-blue-600 text-white rounded-full w-7' : ''
