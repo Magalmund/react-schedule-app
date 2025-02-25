@@ -7,6 +7,9 @@ const labelsClasses = ["green", "orange", "blue"]
 const EventModal = () => {
     const {setShowEventModal, daySelected, dispatchCalEvent, selectedEvent} = useContext(GlobalContext);
 
+    console.log(selectedEvent)
+
+    const [employeeId, setEmployeeId] = useState(selectedEvent ? selectedEvent.id : null);
     const [employee, setEmployee] = useState(selectedEvent ? selectedEvent.employee : "Choose employee");
     const [getEmployees, setGetEmployees] = useState([]);
     const [description, setDescription] = useState(selectedEvent ? selectedEvent.description : "");
@@ -14,8 +17,10 @@ const EventModal = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
         const calendarEvent = {
-            employee,
+            employeeId: employeeId,
+            employee: employee,
             description,
             label: selectedLabel,
             day: daySelected.valueOf(),
@@ -77,7 +82,11 @@ const EventModal = () => {
                             <label className="text-sm font-medium text-gray-700">Choose the employee</label>
                             <select
                                 value={employee}
-                                onChange={(e) => setEmployee(e.target.value)}
+                                onChange={(e) => {
+                                    const selectedEmployee = getEmployees.find(emp => emp.name === e.target.value);
+                                    setEmployee(selectedEmployee.name);
+                                    setEmployeeId(selectedEmployee._id);
+                                }}
                                 className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                             >
                                 <option value="Choose employee">Choose employee</option>

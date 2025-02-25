@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 
 const CalendarHeader = () => {
 
-    const {monthIndex, setMonthIndex} = useContext(GlobalContext)
+    const {monthIndex, setMonthIndex, saveShiftsToDatabase, getAllShifts} = useContext(GlobalContext)
     const handlePrevMonth = () => {
         console.log(monthIndex)
         setMonthIndex(monthIndex - 1);
@@ -38,6 +38,13 @@ const CalendarHeader = () => {
             <h2 className="ml-4 text-xl text-gray-500 font-bold">
                 {dayjs(new Date(dayjs().year(), monthIndex)).format("MMMM YYYY")}
             </h2>
+            <button
+                type="button"
+                onClick={saveShiftsToDatabase}
+                className="ml-4 bg-green-500 hover:bg-green-600 px-4 py-2 rounded text-white transition-colors mr-4"
+            >
+                Save to Database
+            </button>
         </header>
     );
 };

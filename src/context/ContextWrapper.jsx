@@ -1,6 +1,7 @@
 import React, {useEffect, useMemo, useReducer, useState} from 'react';
 import GlobalContext from './GlobalContext.jsx';
 import dayjs from "dayjs";
+import axios from "axios";
 
 const savedEventsReducer = (state, {type, payload}) => {
     switch (type) {
@@ -9,6 +10,9 @@ const savedEventsReducer = (state, {type, payload}) => {
         case "update":
             return state.map((event) => event.id === payload.id ? payload : event);
         case "delete":
+            if (payload.id === 'all') {
+                return []; //delete all shifts
+            }
             return state.filter((event) => event.id !== payload.id);
         default:
             throw new Error();
@@ -38,6 +42,7 @@ const ContextWrapper = ({children}) => {
                 .includes(event.label)
         );
     }, [savedEvents, labels])
+
 
 
     useEffect(() => {
@@ -83,6 +88,37 @@ const ContextWrapper = ({children}) => {
         setLabels(labels.map((lbl) => lbl.label === label.label ? label : lbl))
     }
 
+    const saveShiftsToDatabase = async() => {
+        try {
+            const response = await axios.post('http://localhost:5001/api/shifts', savedEvents)
+            // if (response.data.message === undefined) {}
+            alert(response.data.message);
+        } catch (error) {
+            console.error('Error saving shifts to database:', error);
+            alert('Error saving shifts to database');
+        }
+    }
+
+    const getAllShifts = async() => {
+        try {
+            const response = await axios.get('http://localhost:5001/api/shifts');
+            const shifts = response.data;
+
+            dispatchCalEvent({ type: 'delete', payload: { id: 'all' } });
+            shifts.forEach (shift => {
+                dispatchCalEvent({ type: 'push', payload: shift });
+            })
+        }catch (error) {
+            console.error('Error getting shifts from database:', error);
+            alert('Error getting shifts from database')
+        }
+
+    }
+
+    useEffect(() => {
+        getAllShifts();
+    }, []);
+
     return (
         <GlobalContext.Provider value={{
             monthIndex,
@@ -101,6 +137,8 @@ const ContextWrapper = ({children}) => {
             setLabels,
             updateLabel,
             filteredEvents,
+            saveShiftsToDatabase,
+            getAllShifts,
         }}>
             {children}
         </GlobalContext.Provider>
