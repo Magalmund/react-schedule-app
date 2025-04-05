@@ -17,8 +17,11 @@ const GlobalContext = createContext({
     setLabels: () => {},
     updateLabel: () => {},
     filteredEvents: () => {},
-    saveShiftsToDatabase: () => {},
     getAllShifts: () => {},
+    showLoginModal: false,
+    setShowLoginModal: () => {},
+    showEmployeesModal: false,
+    setShowEmployeesModal: () => {},
 });
 
 export default GlobalContext;

@@ -10,30 +10,24 @@ const savedEventsReducer = (state, {type, payload}) => {
         case "update":
             return state.map((event) => event.id === payload.id ? payload : event);
         case "delete":
-            if (payload.id === 'all') {
-                return []; //delete all shifts
-            }
             return state.filter((event) => event.id !== payload.id);
         default:
             throw new Error();
     }
 }
-const initEvents = () => {
-    const storageEvents = localStorage.getItem('savedEvents');
-    const parsedEvents = storageEvents ? JSON.parse(storageEvents) : [];
-    return parsedEvents;
-}
+
 
 const ContextWrapper = ({children}) => {
     const [monthIndex, setMonthIndex] = useState(dayjs().month());
     const [smallCalendarMonth, setSmallCalendarMonth] = useState(null);
     const [daySelected, setDaySelected] = useState(dayjs);
     const [showEventModal, setShowEventModal] = useState(false);
+    const [showLoginModal, setShowLoginModal] = useState(false);
+    const [showEmployeesModal, setShowEmployeesModal] = useState(false);
     const [selectedEvent, setSelectedEvent] = useState(null);
-    const [savedEvents, dispatchCalEvent] = useReducer(savedEventsReducer, [], initEvents);
+    const [savedEvents, dispatchCalEvent] = useReducer(savedEventsReducer, []);
     const [labels, setLabels] = useState([]);
 
-    console.log(savedEvents);
 
     const filteredEvents = useMemo(() => {
         return savedEvents.filter((event) =>
@@ -42,12 +36,6 @@ const ContextWrapper = ({children}) => {
                 .includes(event.label)
         );
     }, [savedEvents, labels])
-
-
-
-    useEffect(() => {
-        localStorage.setItem('savedEvents', JSON.stringify(savedEvents));
-    }, [savedEvents])
 
     useEffect(() => {
         if (smallCalendarMonth !== null) {
@@ -88,23 +76,12 @@ const ContextWrapper = ({children}) => {
         setLabels(labels.map((lbl) => lbl.label === label.label ? label : lbl))
     }
 
-    const saveShiftsToDatabase = async() => {
-        try {
-            const response = await axios.post('http://localhost:5001/api/shifts', savedEvents)
-            // if (response.data.message === undefined) {}
-            alert(response.data.message);
-        } catch (error) {
-            console.error('Error saving shifts to database:', error);
-            alert('Error saving shifts to database');
-        }
-    }
 
     const getAllShifts = async() => {
         try {
             const response = await axios.get('http://localhost:5001/api/shifts');
             const shifts = response.data;
 
-            dispatchCalEvent({ type: 'delete', payload: { id: 'all' } });
             shifts.forEach (shift => {
                 dispatchCalEvent({ type: 'push', payload: shift });
             })
@@ -137,8 +114,11 @@ const ContextWrapper = ({children}) => {
             setLabels,
             updateLabel,
             filteredEvents,
-            saveShiftsToDatabase,
             getAllShifts,
+            showLoginModal,
+            setShowLoginModal,
+            showEmployeesModal,
+            setShowEmployeesModal
         }}>
             {children}
         </GlobalContext.Provider>

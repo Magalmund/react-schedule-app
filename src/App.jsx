@@ -1,32 +1,28 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.css'
-import {getMonth} from './utils.js'
-import Sidebar from "./components/Sidebar.jsx";
-import Month from "./components/Month.jsx";
-import CalendarHeader from "./components/CalendarHeader.jsx";
-import {useContext, useEffect, useState} from "react";
-import GlobalContext from "./context/GlobalContext.jsx";
-import EventModal from "./components/EventModal.jsx";
+import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import Calendar from "./components/Calendar.jsx";
+import {useDispatch, useSelector} from "react-redux";
+import {auth} from "./action/auth.js";
 
 function App() {
-    const [currentMonth, setCurrentMonth] = useState(getMonth());
-    const {monthIndex, showEventModal} = useContext(GlobalContext);
+    const isAuth = useSelector(state => state.user.isAuth);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        setCurrentMonth(getMonth(monthIndex))
-    }, [monthIndex]);
+        dispatch(auth())
+    }, [])
 
     return (
-        <React.Fragment>
-            {showEventModal && <EventModal/>}
-            <div className="h-screen flex flex-col">
-                <CalendarHeader/>
-                <div className="flex flex-1">
-                    <Sidebar/>
-                    <Month month={currentMonth}/>
-                </div>
-            </div>
-        </React.Fragment>
+        <Router>
+            <Routes>
+                {/*{!isAuth &&*/}
+                {/*    <Route path="/login" element={<LoginModal />} />*/}
+                {/*}*/}
+                <Route path="/" element={<Calendar />} />
+                <Route path="*" element={<Calendar />} />
+            </Routes>
+        </Router>
     )
 }
 

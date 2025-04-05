@@ -1,0 +1,42 @@
+.label {
+    display: block;
+    align-items: center;
+    cursor: pointer;
+    color: #394a56;
+}
+
+.labelText {
+    margin-left: 16px;
+}
+
+.toggle {
+    isolation: isolate;
+    position: relative;
+    height: 30px;
+    width: 60px;
+    border-radius: 15px;
+    overflow: hidden;
+    background: #ecf0f3;
+    box-shadow: inset 2px 2px 5px #b8b9be, inset -3px -3px 7px #fff;
+}
+
+.toggleState {
+    display: none;
+}
+
+.indicator {
+    height: 100%;
+    width: 200%;
+    background: #b1bcce;
+    border-radius: 15px;
+    transform: translate3d(-75%, 0, 0);
+    transition: transform 0.4s cubic-bezier(0.85, 0.05, 0.18, 1.35), background-color .15s cubic-bezier(0.85, 0.05, 0.18, 1.35), border-color .15s cubic-bezier(0.85, 0.05, 0.18, 1.35), box-shadow .15s cubic-bezier(0.85, 0.05, 0.18, 1.35);
+}
+
+.toggleState:checked ~ .indicator {
+    transform: translate3d(25%, 0, 0);
+}
+
+.toggleState:checked ~ .indicator {
+    transform: translate3d(25%, 0, 0);
+}
