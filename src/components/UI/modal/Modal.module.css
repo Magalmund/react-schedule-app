@@ -10,9 +10,19 @@
 
 }
 
-.modalDialog {
-
+@keyframes fadeIn {
+    to { opacity: 1; }
 }
+
+.modalDialog {
+    transform: translateY(20px);
+    animation: slideUp 0.3s forwards;
+}
+
+@keyframes slideUp {
+    to { transform: translateY(0); }
+}
+
 
 .modalContent {
     position: relative;

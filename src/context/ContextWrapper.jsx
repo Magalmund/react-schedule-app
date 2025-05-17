@@ -2,15 +2,16 @@ import React, {useEffect, useMemo, useReducer, useState} from 'react';
 import GlobalContext from './GlobalContext.jsx';
 import dayjs from "dayjs";
 import axios from "axios";
+import {getAllEmployees} from "../action/employees.js";
 
 const savedEventsReducer = (state, {type, payload}) => {
     switch (type) {
         case "push":
             return [...state, payload];
         case "update":
-            return state.map((event) => event.id === payload.id ? payload : event);
+            return state.map((event) => event._id === payload._id ? payload : event);
         case "delete":
-            return state.filter((event) => event.id !== payload.id);
+            return state.filter((event) => event._id !== payload._id);
         default:
             throw new Error();
     }
@@ -27,6 +28,8 @@ const ContextWrapper = ({children}) => {
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [savedEvents, dispatchCalEvent] = useReducer(savedEventsReducer, []);
     const [labels, setLabels] = useState([]);
+    const [employees, setEmployees] = useState([]);
+    const [employeeLabel, setEmployeeLabel] = useState([]);
 
 
     const filteredEvents = useMemo(() => {
@@ -37,6 +40,23 @@ const ContextWrapper = ({children}) => {
         );
     }, [savedEvents, labels])
 
+
+    const filteredEventsByUser = useMemo(() => {
+        return filteredEvents.filter((event) =>
+            employeeLabel.filter((label) => label.checked)
+                .map(label => label.employeeId)
+                .includes(event.employeeId)
+        )
+    },[filteredEvents, employeeLabel])
+
+    const updateEmployeeLabel = (updatedLabel) => {
+        setEmployeeLabel(employeeLabel.map((label) => label.employeeId === updatedLabel.employeeId ? updatedLabel : label))
+    }
+
+    const updateLabel = (label) => {
+        setLabels(labels.map((lbl) => lbl.label === label.label ? label : lbl))
+    }
+
     useEffect(() => {
         if (smallCalendarMonth !== null) {
             setMonthIndex(smallCalendarMonth)
@@ -44,23 +64,37 @@ const ContextWrapper = ({children}) => {
     }, [smallCalendarMonth])
 
     useEffect(() => {
-        setLabels((prevLabels) => {
+        setEmployeeLabel(() => {
+            return employees.map(employee => ({
+                employeeId: employee._id,
+                employeeName: employee.name,
+                checked: true,
+            }));
+        });
+    }, [savedEvents, employees])
+
+
+    useEffect(() => {
+        setLabels(() => {
             return [...new Set(savedEvents.map((event) => event.label))].map((label) => {
-                const currentLabel = prevLabels.find((label) => label.label === label);
+
                 const shifts = {
                     green: "day",
                     orange: "evening",
-                    blue: "night"
+                    blue: "night",
+                    purple: "core",
+                    yellow: "sick day",
+                    gray: "other"
                 }
 
                 return shifts[label] ? {
                     shift: shifts[label],
                     label,
-                    checked: currentLabel ? currentLabel.checked : true,
+                    checked: true
                 } : {
                     shift: `Unknown, color is ${label}`,
                     label,
-                    checked: currentLabel ? currentLabel.checked : true,
+                    checked: true
                 }
             });
         })
@@ -71,10 +105,6 @@ const ContextWrapper = ({children}) => {
             setSelectedEvent(null);
         }
     }, [showEventModal])
-
-    const updateLabel = (label) => {
-        setLabels(labels.map((lbl) => lbl.label === label.label ? label : lbl))
-    }
 
 
     const getAllShifts = async() => {
@@ -95,6 +125,11 @@ const ContextWrapper = ({children}) => {
     useEffect(() => {
         getAllShifts();
     }, []);
+
+    useEffect(() => {
+        getAllEmployees(setEmployees);
+    }, []);
+
 
     return (
         <GlobalContext.Provider value={{
@@ -118,7 +153,13 @@ const ContextWrapper = ({children}) => {
             showLoginModal,
             setShowLoginModal,
             showEmployeesModal,
-            setShowEmployeesModal
+            setShowEmployeesModal,
+            employeeLabel,
+            setEmployeeLabel,
+            filteredEventsByUser,
+            updateEmployeeLabel,
+            employees,
+            setEmployees
         }}>
             {children}
         </GlobalContext.Provider>

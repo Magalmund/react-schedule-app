@@ -13,12 +13,12 @@ const Labels = () => {
                     Shifts:
                 </h2>
                 {labels.length > 0 ? (
-                    labels.map(({shift:shift, label:label, checked}, index) => (
+                    labels.map(({shift: shift, label: label, checked}, index) => (
                         <div key={index} className="flex items-center mt-4">
                             <Switch
                                 checked={checked}
                                 color={label}
-                                onChange={(e) => updateLabel({shift: shift, label: label, checked: !checked})}
+                                onChange={() => updateLabel({shift: shift, label: label, checked: !checked})}
                             >
                             </Switch>
                             <span className="ml-12 text-gray-700 capitalize">

@@ -18,30 +18,15 @@ const LoginModal = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        e.stopPropagation();
         dispatch(login(email, password));
         setShowLoginModal(false);
     }
 
     return (
-        // <div>
-        //     <input
-        //         type="text"
-        //         placeholder="Email"
-        //         value={email}
-        //         onChange={(e) => setEmail(e.target.value)}
-        //     />
-        //     <input
-        //         type="password"
-        //         placeholder="Password"
-        //         value={password}
-        //         onChange={(e) => setPassword(e.target.value)}
-        //     />
-        //     <button onClick={() => dispatch(login(email, password))}>LoginModal</button>
-        // </div>
-
-
-        <Modal>
+        <Modal setShowModal={setShowLoginModal} onSubmit={handleSubmit}>
             <button
+                type="button"
                 onClick={() => setShowLoginModal(false)}
                 className="text-gray-500 hover:text-gray-700 transition-colors cursor-pointer flex items-center mr-auto"
             >
@@ -93,8 +78,7 @@ const LoginModal = () => {
                             />
                         </div>
                     </div>
-                    {/*<Button onClick={() => dispatch(login(email, password))} customClass="w-full">LoginModal</Button>*/}
-                    <Button customClass="w-full" type="submit" onClick={handleSubmit}>Login</Button>
+                    <Button customClass="w-full" type="submit">Login</Button>
                 </div>
             </div>
         </Modal>

@@ -22,6 +22,12 @@ const GlobalContext = createContext({
     setShowLoginModal: () => {},
     showEmployeesModal: false,
     setShowEmployeesModal: () => {},
+    employeeLabel: [],
+    setEmployeeLabel: () => {},
+    filteredEventsByUser: () => {},
+    updateEmployeeLabel: () => {},
+    employees: [],
+    setEmployees: () => {}
 });
 
 export default GlobalContext;

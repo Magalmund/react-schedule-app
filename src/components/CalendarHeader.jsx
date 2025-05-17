@@ -62,7 +62,7 @@ const CalendarHeader = () => {
                             customClass="mr-4"
                             onClick={() => setShowEmployeesModal(true)}
                         >
-                            Add employee
+                            Employees
                         </Button>
                         <Button
                             onClick={() => dispatch(logout())}
@@ -74,19 +74,14 @@ const CalendarHeader = () => {
                     </>
                 }
                 {!isAuth &&
-                    // <Button className="ml-4">
-                    //     <NavLink
-                    //         to="/login"
-                    //     >
-                    //         LoginModal
-                    //     </NavLink>
-                    // </Button>
-                    <Button
-                        customClass="ml-4"
-                        onClick={() => setShowLoginModal(true)}
-                    >
-                        Login
-                    </Button>
+                    <>
+                        <Button
+                            customClass="ml-4"
+                            onClick={() => setShowLoginModal(true)}
+                        >
+                            Login
+                        </Button>
+                    </>
                 }
             </div>
         </header>

@@ -4,14 +4,12 @@ import {thunk} from "redux-thunk";
 import {userReducer} from "./userReducer.js";
 import {shiftReducer} from "./shiftReducer.js";
 import {employeeReducer} from "./employeeReducer.js";
-import {fakeUsersReducer} from "./fakeUserReducer.js";
 
 
 const rootReducer = combineReducers({
     user: userReducer,
     shift: shiftReducer,
     employee: employeeReducer,
-    // users: fakeUsersReducer
 });
 
 

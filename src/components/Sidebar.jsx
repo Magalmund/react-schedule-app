@@ -15,13 +15,7 @@ const Sidebar = () => {
             <CreateEventButton />
             <SmallCalendar/>
             <Labels/>
-            {isAuth &&
-                <React.Fragment>
-                    {/*<AddEmployee/>*/}
-                    <EmployeeList/>
-                </React.Fragment>
-            }
-
+            <EmployeeList/>
         </aside>
     );
 };

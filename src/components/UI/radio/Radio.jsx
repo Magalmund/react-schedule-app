@@ -20,7 +20,6 @@ const Radio = ({data, selected, setSelected, className}) => {
                         />
                         <label htmlFor={item} className={classes.label}>
                             <div className={classes.indicator}></div>
-                            {/*<span className={classes.text}>a) {item}</span>*/}
                         </label>
                     </div>
                 </div>
